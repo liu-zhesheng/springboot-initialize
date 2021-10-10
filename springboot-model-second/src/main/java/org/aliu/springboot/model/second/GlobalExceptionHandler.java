@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
-
 /**
  * 全局异常处理
  *
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public Response handleException(Exception e){
-        log.error(e.getMessage());
+    public Response handleException(Exception e) {
+        log.error("异常: {} , 信息:{}", e.getClass(), e.getMessage());
         return Response.fail(HttpStatusCodeEnum.SYSTEM_ERROR);
     }
 

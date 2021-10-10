@@ -90,7 +90,7 @@ public class MaintainController {
             log.info("response: {}", JSON.toJSONString(Response.fail(HttpStatusCodeEnum.NOT_FOUND)), true);
             return Response.fail(HttpStatusCodeEnum.NOT_FOUND);
         }
-        log.info("response: {}", JSON.toJSONString(Response.fail(HttpStatusCodeEnum.NOT_FOUND)));
+        log.info("response返回: {}", JSON.toJSONString(Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()))),true);
         return Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()));
     }
 

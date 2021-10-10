@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://47.109.25.6:3306/smart_part_check?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 12345678
+    username: root
+
+
