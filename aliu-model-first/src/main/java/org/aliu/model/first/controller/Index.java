@@ -2,6 +2,7 @@ package org.aliu.model.first.controller;
 
 import org.aliu.model.first.domain.entity.Student;
 import org.aliu.model.first.domain.enums.HttpStatusCodeEnum;
+import org.aliu.model.first.domain.result.PageResponse;
 import org.aliu.model.first.domain.result.ResponseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import java.util.List;
 public class Index {
 
     /**
-     * 成功
+     * 操作成功
      *
      * @return
      */
@@ -36,8 +37,12 @@ public class Index {
      *
      * @return
      */
+    @GetMapping("/success/data")
     public ResponseResult successData() {
-        return ResponseResult.success(HttpStatusCodeEnum.SUCCESS);
+        Student student = new Student();
+        student.setId(2L);
+        student.setName("张三");
+        return ResponseResult.success(student);
     }
 
 
@@ -49,14 +54,11 @@ public class Index {
     @GetMapping("/success/list")
     public ResponseResult<Student> successList() {
         List<Student> students = new ArrayList<>();
-
         Student student = new Student();
         student.setId(1L);
         student.setName("小刘哥");
-
         students.add(student);
-
-        return ResponseResult.success(students);
+        return ResponseResult.success(HttpStatusCodeEnum.SUCCESS,students);
     }
 
     /**
@@ -67,5 +69,36 @@ public class Index {
     @GetMapping("/fail")
     public ResponseResult fail() {
         return ResponseResult.fail();
+    }
+
+    /**
+     * 失败枚举
+     *
+     * @return
+     */
+    @GetMapping("/fail/enum")
+    public ResponseResult failEnum() {
+        return ResponseResult.fail(HttpStatusCodeEnum.NEED_ADMIND);
+    }
+
+    /**
+     * 分页失败
+     *
+     * @return
+     */
+    @GetMapping("/page/fail")
+    public PageResponse<Student> page() {
+        return PageResponse.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
+    }
+
+
+    @GetMapping("/page/success")
+    public PageResponse<Student> pageData() {
+        List<Student> students = new ArrayList<>();
+        Student student = new Student();
+        student.setId(1L);
+        student.setName("小刘哥");
+        students.add(student);
+        return PageResponse.success(students, 4, HttpStatusCodeEnum.SUCCESS);
     }
 }
