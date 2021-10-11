@@ -1,6 +1,7 @@
 package org.aliu.springboot.model.second.entity.result;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
 
 /**
@@ -9,6 +10,7 @@ import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
  * @author liusheng
  * @date 2021/9/27
  */
+@Getter
 @Builder
 public class Response<T> {
 
@@ -32,62 +34,31 @@ public class Response<T> {
      */
     private final Boolean success;
 
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
     /**
-     * 统一失败操作
-     *
-     * @return
-     */
-    public static <T> Response fail() {
-        ResponseBuilder<T> builder = new ResponseBuilder<T>();
-        return builder.code(400).message("操作失败").success(Boolean.FALSE).build();
-    }
-
-    /**
-     * 异常失败操作
+     * 统一失败
      *
      * @return
      */
     public static <T> Response fail(HttpStatusCodeEnum codeEnum) {
         ResponseBuilder<T> builder = new ResponseBuilder<T>();
-        return builder.code(codeEnum.getCode()).message(codeEnum.getMessage()).success(Boolean.FALSE).build();
+        return builder.code(codeEnum.getCode()).
+                message(codeEnum.getMessage()).
+                success(Boolean.FALSE).build();
     }
 
     /**
-     * 统一成功操作
-     * @param <T>
-     * @return
-     */
-    public static <T> Response success() {
-        ResponseBuilder<Object> builder = new ResponseBuilder<>();
-        return builder.code(200).message("操作成功").success(Boolean.TRUE).build();
-    }
-
-    /**
-     * 统一带数据的返回格式
+     * 统一成功
+     *
      * @param data
      * @param <T>
      * @return
      */
-    public static <T> Response success(T data){
+    public static <T> Response success(T data, HttpStatusCodeEnum codeEnum) {
         ResponseBuilder<T> builder = new ResponseBuilder<T>();
-        return builder.code(200).message("操作成功").data(data).success(Boolean.TRUE).build();
+        return builder.code(codeEnum.getCode()).
+                message(codeEnum.getMessage()).
+                data(data).
+                success(Boolean.TRUE).build();
     }
 
 }

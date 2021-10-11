@@ -42,26 +42,29 @@ public class PageResponse<T> {
     private final Long total;
 
     /**
-     * 失败
+     * 自定义失败
      *
+     * @param codeEnum
      * @return
      */
-    public static PageResponse fail() {
-        PageResponseBuilder<Object> builder = new PageResponseBuilder<>();
-        return builder.code(400).message("操作失败").success(Boolean.FALSE).build();
-    }
     public static PageResponse fail(HttpStatusCodeEnum codeEnum) {
         PageResponseBuilder<Object> builder = new PageResponseBuilder<>();
-        return builder.code(codeEnum.getCode()).message(codeEnum.getMessage()).success(Boolean.FALSE).build();
+        return builder.code(codeEnum.getCode()).
+                message(codeEnum.getMessage()).
+                success(Boolean.FALSE).build();
     }
 
     /**
-     * 成功
+     * 自定义成功
      *
      * @return
      */
-    public static <T> PageResponse success(List<T> data, Long total) {
+    public static <T> PageResponse success(List<T> data, Long total, HttpStatusCodeEnum codeEnum) {
         PageResponseBuilder<T> builder = new PageResponseBuilder<T>();
-        return builder.code(200).message("操作成功").data(data).success(Boolean.TRUE).total(total).build();
+        return builder.code(codeEnum.getCode()).
+                message(codeEnum.getMessage()).
+                data(data).
+                success(Boolean.TRUE).
+                total(total).build();
     }
 }
