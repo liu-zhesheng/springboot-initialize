@@ -1,7 +1,9 @@
 package org.aliu.springboot.model.second.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aliu.springboot.model.second.entity.result.Response;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 日志切面处理类
@@ -28,7 +31,6 @@ public class LogApi {
     private final ObjectMapper objectMapper;
 
 
-
     @Autowired
     private HttpServletRequest request;
 
@@ -36,7 +38,7 @@ public class LogApi {
         this.objectMapper = objectMapper;
     }
 
-    @Pointcut("execution(public * org.aliu.springboot.model.second.controller.*.*(..))")
+    @Pointcut("execution(* org.aliu.springboot.model.second.controller.*.*(..))")
     public void api() {
     }
 
@@ -50,11 +52,15 @@ public class LogApi {
         long begin = System.currentTimeMillis();
         try {
             result = joinPoint.proceed();
-        } catch (Throwable e) {
-            logger.debug("api:{} method:{} params:{} error with {}ms", uri, method, params, System.currentTimeMillis() - begin);
+        } catch (Exception e) {
+            logger.error("api:{} method:{} params:{} error with {}ms", uri, method, params, System.currentTimeMillis() - begin);
             throw e;
         }
-        logger.debug("api:{} method:{} params:{} success with {}ms", uri, method, params, System.currentTimeMillis() - begin);
+        logger.info("api:{} ", uri);
+        logger.info("method:{}", method);
+        logger.info("params:{}", params);
+        logger.info("return:{}", JSON.toJSONString(result,true));
+        logger.info("success with {}ms", System.currentTimeMillis() - begin);
         return result;
     }
 

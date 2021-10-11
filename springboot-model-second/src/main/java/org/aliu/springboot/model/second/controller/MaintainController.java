@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.aliu.springboot.model.second.entity.annotations.LogApi;
 import org.aliu.springboot.model.second.entity.dto.MaintainDTO;
 import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
 import org.aliu.springboot.model.second.entity.pojo.Maintain;
@@ -46,7 +47,6 @@ public class MaintainController {
     public Response<Void> addMaintain(@RequestBody MaintainDTO dto) {
         Maintain maintain = dto.of();
         //添加之前执行查询操作看是否存在 , 存在执行修改,不存在执行添加
-
         maintainMapper.insert(maintain);
         return Response.success();
     }
@@ -87,8 +87,8 @@ public class MaintainController {
     @GetMapping("/getAllMaintain")
     public Response getAllMaintain() {
         if (CollectionUtils.isEmpty(maintainMapper.selectList(new QueryWrapper<Maintain>()))) {
-            log.info("response: {}", JSON.toJSONString(Response.fail(HttpStatusCodeEnum.NOT_FOUND)), true);
-            return Response.fail(HttpStatusCodeEnum.NOT_FOUND);
+            log.info("response: {}", JSON.toJSONString(Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST)), true);
+            return Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
         log.info("response返回: {}", JSON.toJSONString(Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()))),true);
         return Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()));
@@ -103,7 +103,7 @@ public class MaintainController {
     @GetMapping("/getMaintainById/{id}")
     public Response<Maintain> getMaintainById(@PathVariable("id") Long id) {
         return Optional.ofNullable(maintainMapper.selectById(id)).map(Response::success)
-                .orElse(Response.fail(HttpStatusCodeEnum.NOT_FOUND));
+                .orElse(Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST));
     }
 
 
@@ -119,7 +119,7 @@ public class MaintainController {
     @GetMapping("getMaintainByVin/{vin}")
     public Response<Maintain> getMaintainByVin(@PathVariable("vin") String vin) {
         if (CollectionUtils.isEmpty(maintainMapper.selectList(new LambdaQueryWrapper<Maintain>().eq(Maintain::getVin, vin)))) {
-            return Response.fail(HttpStatusCodeEnum.NOT_FOUND);
+            return Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
         return Response.success(maintainMapper.selectList(new LambdaQueryWrapper<Maintain>().eq(Maintain::getVin, vin)));
     }
@@ -138,7 +138,7 @@ public class MaintainController {
         Page<Maintain> maintainIPage = new Page<>(currentPage, size);
         Page<Maintain> page = maintainMapper.selectPage(maintainIPage, new QueryWrapper<>());
         if (CollectionUtils.isEmpty(page.getRecords())){
-            PageResponse.fail(HttpStatusCodeEnum.NOT_FOUND);
+            PageResponse.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
         log.info("总条数: {}",page.getTotal());
         return PageResponse.success(page.getRecords(), page.getTotal());

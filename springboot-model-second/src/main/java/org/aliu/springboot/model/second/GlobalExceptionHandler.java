@@ -5,6 +5,7 @@ import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
 import org.aliu.springboot.model.second.entity.result.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 
 /**
@@ -20,7 +21,20 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 其他异常
+     * 处理参数类型错误异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public Response handlerMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+        log.error("参数类型异常: {}",e.getMessage());
+        return Response.fail(HttpStatusCodeEnum.PARAM_INVALID);
+    }
+
+
+    /**
+     * 系统异常
      *
      * @param e
      * @return
