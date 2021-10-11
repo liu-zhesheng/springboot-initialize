@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+
+    /**
+     * 其他异常
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     public Response handleException(Exception e) {
         log.error("异常: {} , 信息:{}", e.getClass(), e.getMessage());

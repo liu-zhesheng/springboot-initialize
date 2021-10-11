@@ -10,15 +10,15 @@ package org.aliu.model.first.domain.enums;
  */
 
 public enum HttpStatusCodeEnum {
-    /**
-     * 成功
-     */
+    //成功
     SUCCESS(200, "操作成功"),
 
-    /**
-     * 失败
-     */
+    //失败
     FAIL(400, "操作失败"),
+
+    //系统异常
+    SYSTEM_ERROR(500,"系统异常"),
+
 
 
     // 登录段1~50
