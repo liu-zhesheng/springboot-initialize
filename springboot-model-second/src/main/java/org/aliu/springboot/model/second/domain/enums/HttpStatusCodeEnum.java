@@ -1,4 +1,4 @@
-package org.aliu.springboot.model.second.entity.enums;
+package org.aliu.springboot.model.second.domain.enums;
 
 /**
  * 状态码 枚举

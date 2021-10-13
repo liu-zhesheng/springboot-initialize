@@ -1,5 +1,6 @@
 package org.aliu.springboot.model.four.domain.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @date 2021/9/27
  */
 @Data
+@AllArgsConstructor
 public class PageQuery<T> implements Serializable {
 
     private static final long serialVersionUID = -7717520428315031630L;

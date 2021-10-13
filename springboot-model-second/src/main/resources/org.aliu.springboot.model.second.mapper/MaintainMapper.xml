@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.aliu.springboot.model.second.mapper.MaintainMapper">
+
+    <select id="select" resultType="org.aliu.springboot.model.second.domain.entity.Maintain"></select>
+</mapper>

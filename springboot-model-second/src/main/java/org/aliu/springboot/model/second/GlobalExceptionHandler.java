@@ -1,8 +1,8 @@
 package org.aliu.springboot.model.second;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
-import org.aliu.springboot.model.second.entity.result.Response;
+import org.aliu.springboot.model.second.domain.enums.HttpStatusCodeEnum;
+import org.aliu.springboot.model.second.domain.result.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;

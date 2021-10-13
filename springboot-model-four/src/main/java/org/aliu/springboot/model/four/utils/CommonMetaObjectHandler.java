@@ -70,6 +70,12 @@ public class CommonMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
+
+        //填充修改时间
+        this.strictInsertFill(metaObject,
+                "modified",
+                LocalDateTime.class,
+                LocalDateTime.now());
         this.strictUpdateFill(metaObject,
                 "operator",
                 String.class,

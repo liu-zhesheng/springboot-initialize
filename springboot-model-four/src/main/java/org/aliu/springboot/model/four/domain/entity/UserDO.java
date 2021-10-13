@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @date 2021/9/27
  */
 @Data
-@TableName
+@TableName("user")
 public class UserDO implements Serializable {
 
     /**

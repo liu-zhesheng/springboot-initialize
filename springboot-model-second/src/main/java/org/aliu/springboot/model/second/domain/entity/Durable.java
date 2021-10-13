@@ -1,4 +1,4 @@
-package org.aliu.springboot.model.second.entity.pojo;
+package org.aliu.springboot.model.second.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;

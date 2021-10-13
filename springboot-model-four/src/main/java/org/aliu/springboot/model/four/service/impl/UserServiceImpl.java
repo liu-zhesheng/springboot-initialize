@@ -14,6 +14,7 @@ import org.aliu.springboot.model.four.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int save(UserDTO userDTO) {
         UserDO userDO = new UserDO();
 
@@ -40,11 +42,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int delete(Long id) {
         return userMapper.deleteById(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int update(Long id, UserDTO userDTO) {
         UserDO userDO = new UserDO();
 
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public PageResult<List<UserDTO>> query(PageQuery<UserQueryDTO> pageQuery) {
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(pageQuery.getQuery(), userDO);
@@ -73,7 +78,10 @@ public class UserServiceImpl implements UserService {
         pageResult.setTotal(userDOPage.getTotal());
         pageResult.setTotalPage(userDOPage.getPages());
 
-        List<UserDTO> userDTOList = Optional.ofNullable(userDOPage.getRecords())
+        List<UserDO> records = userDOPage.getRecords();
+
+        //Optional处理空集合
+        List<UserDTO> userDTOList = Optional.ofNullable(records)
                 .map(List::stream)
                 .orElseGet(Stream::empty)
                 .map(DO -> {

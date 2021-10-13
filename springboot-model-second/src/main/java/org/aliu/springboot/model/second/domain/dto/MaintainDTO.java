@@ -1,8 +1,8 @@
-package org.aliu.springboot.model.second.entity.dto;
+package org.aliu.springboot.model.second.domain.dto;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
-import org.aliu.springboot.model.second.entity.pojo.Maintain;
+import org.aliu.springboot.model.second.domain.entity.Maintain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,6 +1,7 @@
 package org.aliu.springboot.model.four.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aliu.springboot.model.four.domain.common.PageQuery;
 import org.aliu.springboot.model.four.domain.common.PageResult;
 import org.aliu.springboot.model.four.domain.common.ResponseResult;
 import org.aliu.springboot.model.four.domain.dto.UserDTO;
@@ -9,6 +10,8 @@ import org.aliu.springboot.model.four.exception.ErrorCodeEnum;
 import org.aliu.springboot.model.four.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户相关接口
@@ -49,7 +52,12 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public ResponseResult delete(@PathVariable("id") Long id) {
-        return ResponseResult.success("删除成功");
+        int delete = userService.delete(id);
+        if (delete == 1) {
+            return ResponseResult.success("删除成功");
+        } else {
+            return ResponseResult.fail(ErrorCodeEnum.DELETE_ERROR);
+        }
     }
 
 
@@ -61,11 +69,17 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public ResponseResult update(@PathVariable("id") Long id, @RequestBody UserDTO userDTO) {
-        return ResponseResult.success("更新成功");
+        int update = userService.update(id, userDTO);
+
+        if (update == 1) {
+            return ResponseResult.success("更新成功");
+        } else {
+            return ResponseResult.fail(ErrorCodeEnum.UPDATE_ERROR);
+        }
     }
 
     /**
-     * 查询用户信息
+     * 分页查询用户信息
      * <p>
      * GET  /api/users
      *
@@ -74,9 +88,13 @@ public class UserController {
      * @return
      */
     @GetMapping
-    public ResponseResult<PageResult> query(Integer currentPage, Integer pageSize, UserQueryDTO userQueryDTO) {
+    public ResponseResult<PageResult> query(@RequestParam("currentPage") Integer currentPage,
+                                            @RequestParam("pageSize") Integer pageSize,
+                                            @RequestBody UserQueryDTO userQueryDTO) {
+        PageQuery<UserQueryDTO> pageQuery = new PageQuery(currentPage, pageSize, userQueryDTO);
+        PageResult<List<UserDTO>> queryResult = userService.query(pageQuery);
 
-        return ResponseResult.success(new PageResult<>());
+        return ResponseResult.success(queryResult);
     }
 
 }

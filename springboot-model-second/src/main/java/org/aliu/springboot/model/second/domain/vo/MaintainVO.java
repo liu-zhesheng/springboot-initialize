@@ -1,4 +1,4 @@
-package org.aliu.springboot.model.second.entity.vo;
+package org.aliu.springboot.model.second.domain.vo;
 
 import lombok.Setter;
 

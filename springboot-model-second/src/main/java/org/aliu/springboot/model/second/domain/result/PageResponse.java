@@ -1,8 +1,8 @@
-package org.aliu.springboot.model.second.entity.result;
+package org.aliu.springboot.model.second.domain.result;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.aliu.springboot.model.second.entity.enums.HttpStatusCodeEnum;
+import org.aliu.springboot.model.second.domain.enums.HttpStatusCodeEnum;
 
 import java.util.List;
 

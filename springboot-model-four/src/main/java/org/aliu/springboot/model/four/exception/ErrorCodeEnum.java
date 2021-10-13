@@ -29,7 +29,9 @@ public enum ErrorCodeEnum {
 
     //3**** 业务异常
     XXX("3001", "业务异常"),
-    INSERT_ERROR("3002","新增失败");
+    INSERT_ERROR("3002", "新增失败"),
+    DELETE_ERROR("3003", "删除失败"),
+    UPDATE_ERROR("3004","更新失败");
     private String code;
 
     private String message;

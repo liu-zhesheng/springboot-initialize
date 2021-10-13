@@ -1,4 +1,4 @@
-package org.aliu.springboot.model.second.entity.annotations;
+package org.aliu.springboot.model.second.domain.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
