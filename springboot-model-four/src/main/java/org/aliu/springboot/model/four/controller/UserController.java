@@ -1,6 +1,5 @@
 package org.aliu.springboot.model.four.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aliu.springboot.model.four.domain.common.PageQuery;
 import org.aliu.springboot.model.four.domain.common.PageResult;
 import org.aliu.springboot.model.four.domain.common.ResponseResult;
@@ -12,7 +11,6 @@ import org.aliu.springboot.model.four.utils.InsertValidationGroup;
 import org.aliu.springboot.model.four.utils.UpdateValidationGroup;
 import org.aliu.springboot.model.four.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -76,7 +74,7 @@ public class UserController {
     public ResponseResult update(@NotNull(message = "id不能为空")
                                  @PathVariable("id") Long id,
                                  @RequestBody UserDTO userDTO) {
-        ValidatorUtils.validate(userDTO,UpdateValidationGroup.class);
+        ValidatorUtils.validate(userDTO, UpdateValidationGroup.class);
         int update = userService.update(id, userDTO);
         if (update == 1) {
             return ResponseResult.success("更新成功");
