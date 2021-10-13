@@ -55,6 +55,22 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
+     * 通用成功
+     *
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseResult success(T data, ErrorCodeEnum codeEnum) {
+        ResponseResult<T> responseResult = new ResponseResult<>();
+        responseResult.setCode(codeEnum.getCode());
+        responseResult.setMessage(codeEnum.getMessage());
+        responseResult.setSuccess(Boolean.TRUE);
+        responseResult.setResult(data);
+        return responseResult;
+    }
+
+    /**
      * 通用失败
      *
      * @param code
@@ -71,6 +87,7 @@ public class ResponseResult<T> implements Serializable {
 
     /**
      * 枚举失败
+     *
      * @param codeEnum
      * @return
      */

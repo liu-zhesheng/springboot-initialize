@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         UserDO userDO = new UserDO();
 
         BeanUtils.copyProperties(userDTO, userDO);
+        userDO.setId(id);
 
         return userMapper.updateById(userDO);
     }

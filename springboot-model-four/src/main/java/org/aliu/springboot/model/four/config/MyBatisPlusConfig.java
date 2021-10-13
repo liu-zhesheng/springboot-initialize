@@ -2,10 +2,12 @@ package org.aliu.springboot.model.four.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * MyBatis Plus 配置类
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/9/27
  */
 @Configuration
+@EnableTransactionManagement
 public class MyBatisPlusConfig {
 
 
@@ -28,6 +31,7 @@ public class MyBatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }
@@ -40,8 +44,19 @@ public class MyBatisPlusConfig {
      *
      * @return
      */
-    @Bean
-    public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor() {
-        return new OptimisticLockerInnerInterceptor();
-    }
+//    @Bean
+//    public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+//        return new OptimisticLockerInterceptor();
+//    }
+
+    /**
+     * 逻辑删除配置
+     */
+
+
+    /**
+     * 系统字段自动设置
+     */
+
+
 }

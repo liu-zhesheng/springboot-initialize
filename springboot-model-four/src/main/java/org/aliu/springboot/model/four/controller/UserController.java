@@ -94,7 +94,7 @@ public class UserController {
         PageQuery<UserQueryDTO> pageQuery = new PageQuery(currentPage, pageSize, userQueryDTO);
         PageResult<List<UserDTO>> queryResult = userService.query(pageQuery);
 
-        return ResponseResult.success(queryResult);
+        return ResponseResult.success(queryResult,ErrorCodeEnum.SUCCESS);
     }
 
 }
