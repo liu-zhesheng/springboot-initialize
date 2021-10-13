@@ -11,6 +11,7 @@ import org.aliu.springboot.model.four.domain.entity.UserDO;
 import org.aliu.springboot.model.four.domain.vo.UserVO;
 import org.aliu.springboot.model.four.mapper.UserMapper;
 import org.aliu.springboot.model.four.service.UserService;
+import org.aliu.springboot.model.four.utils.ValidatorUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PageResult<List<UserDTO>> query(PageQuery<UserQueryDTO> pageQuery) {
+
+        //校验分页信息
+        ValidatorUtils.validate(pageQuery);
+
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(pageQuery.getQuery(), userDO);
         // TODO: 2021/10/11 如果属性不一致,需要做特殊处理
