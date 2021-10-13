@@ -1,5 +1,6 @@
 package org.aliu.springboot.model.four.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aliu.springboot.model.four.domain.common.PageQuery;
 import org.aliu.springboot.model.four.domain.common.PageResult;
 import org.aliu.springboot.model.four.domain.common.ResponseResult;
@@ -11,6 +12,8 @@ import org.aliu.springboot.model.four.utils.InsertValidationGroup;
 import org.aliu.springboot.model.four.utils.UpdateValidationGroup;
 import org.aliu.springboot.model.four.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -22,6 +25,7 @@ import java.util.List;
  * @author liusheng
  * @date 2021/9/27
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -35,6 +39,7 @@ public class UserController {
      * <p>
      * POST /api/users   UserDTO
      */
+    @CacheEvict(cacheNames = "users-cache", allEntries = true)   //当新增 ,删除 ,修改时 清除缓存
     @PostMapping
     public ResponseResult save(@RequestBody UserDTO userDTO) {
         ValidatorUtils.validate(userDTO, InsertValidationGroup.class);
@@ -84,7 +89,7 @@ public class UserController {
     }
 
     /**
-     * 分页查询用户信息
+     * 分页查询用户信息   查询性能优化,本地缓存
      * <p>
      * GET  /api/users
      *
@@ -92,16 +97,25 @@ public class UserController {
      * @param pageSize
      * @return
      */
+    @Cacheable(cacheNames = "users-cache")
     @GetMapping
     public ResponseResult<PageResult> query(@NotNull(message = "请输入当前页码")
                                             @RequestParam("currentPage") Integer currentPage,
                                             @NotNull(message = "请输入页码尺寸")
                                             @RequestParam("pageSize") Integer pageSize,
                                             @RequestBody UserQueryDTO userQueryDTO) {
+        log.info("未使用缓存");
         ValidatorUtils.validate(userQueryDTO);
         PageQuery<UserQueryDTO> pageQuery = new PageQuery(currentPage, pageSize, userQueryDTO);
         PageResult<List<UserDTO>> queryResult = userService.query(pageQuery);
         return ResponseResult.success(queryResult, ErrorCodeEnum.SUCCESS);
     }
 
+    @GetMapping("/export")
+    public ResponseResult<Boolean> export(UserQueryDTO dto, String filename) {
+        ValidatorUtils.validate(dto);
+
+        //数据导出
+        return ResponseResult.success(Boolean.TRUE, ErrorCodeEnum.SUCCESS);
+    }
 }

@@ -43,14 +43,30 @@ public class ResponseResult<T> implements Serializable {
     /**
      * 通用成功
      *
-     * @param data
+     * @param message
      * @param <T>
      * @return
      */
-    public static <T> ResponseResult success(T data) {
+    public static <T> ResponseResult success(String message) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setSuccess(Boolean.TRUE);
-        responseResult.setResult(data);
+        responseResult.setCode("200");
+        responseResult.setMessage(message);
+        return responseResult;
+    }
+
+    /**
+     * 通用成功
+     *
+     * @param codeEnum
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseResult success(ErrorCodeEnum codeEnum) {
+        ResponseResult<T> responseResult = new ResponseResult<>();
+        responseResult.setSuccess(Boolean.TRUE);
+        responseResult.setCode(codeEnum.getCode());
+        responseResult.setMessage(codeEnum.getMessage());
         return responseResult;
     }
 

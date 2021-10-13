@@ -45,7 +45,7 @@ public class MaintainController {
         Maintain maintain = dto.of();
         //添加之前执行查询操作看是否存在 , 存在执行修改,不存在执行添加
         maintainMapper.insert(maintain);
-        return Response.success();
+        return Response.success(null, HttpStatusCodeEnum.SUCCESS);
     }
 
 
@@ -58,7 +58,7 @@ public class MaintainController {
     @PostMapping("/deleteMaintainById/{id}")
     public Response<Void> deleteMaintainById(@PathVariable("id") Long id) {
         int result = maintainMapper.deleteById(id);
-        return Response.success();
+        return Response.success(null, HttpStatusCodeEnum.SUCCESS);
     }
 
 
@@ -72,7 +72,7 @@ public class MaintainController {
         Map map = new HashMap<>();
         map.put("vin", dto.getVin());
         int result = maintainMapper.deleteByMap(map);
-        return Response.success();
+        return Response.success(null, HttpStatusCodeEnum.SUCCESS);
     }
 
 
@@ -87,8 +87,7 @@ public class MaintainController {
             log.info("response: {}", JSON.toJSONString(Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST)), true);
             return Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
-        log.info("response返回: {}", JSON.toJSONString(Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()))),true);
-        return Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()));
+        return Response.success(maintainMapper.selectList(new QueryWrapper<Maintain>()), HttpStatusCodeEnum.SUCCESS);
     }
 
     /**
@@ -99,7 +98,8 @@ public class MaintainController {
      */
     @GetMapping("/getMaintainById/{id}")
     public Response<Maintain> getMaintainById(@PathVariable("id") Long id) {
-        return Optional.ofNullable(maintainMapper.selectById(id)).map(Response::success)
+        Maintain maintain = maintainMapper.selectById(id);
+        return Optional.ofNullable(maintain).map(maintain1 -> Response.success(maintain1, HttpStatusCodeEnum.SUCCESS))
                 .orElse(Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST));
     }
 
@@ -118,7 +118,7 @@ public class MaintainController {
         if (CollectionUtils.isEmpty(maintainMapper.selectList(new LambdaQueryWrapper<Maintain>().eq(Maintain::getVin, vin)))) {
             return Response.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
-        return Response.success(maintainMapper.selectList(new LambdaQueryWrapper<Maintain>().eq(Maintain::getVin, vin)));
+        return Response.success(maintainMapper.selectList(new LambdaQueryWrapper<Maintain>().eq(Maintain::getVin, vin)), HttpStatusCodeEnum.SUCCESS);
     }
 
 
@@ -134,10 +134,10 @@ public class MaintainController {
                                                   @RequestParam("size") Integer size) {
         Page<Maintain> maintainIPage = new Page<>(currentPage, size);
         Page<Maintain> page = maintainMapper.selectPage(maintainIPage, new QueryWrapper<>());
-        if (CollectionUtils.isEmpty(page.getRecords())){
+        if (CollectionUtils.isEmpty(page.getRecords())) {
             PageResponse.fail(HttpStatusCodeEnum.DATA_NOT_EXIST);
         }
-        log.info("总条数: {}",page.getTotal());
-        return PageResponse.success(page.getRecords(), page.getTotal());
+        log.info("总条数: {}", page.getTotal());
+        return PageResponse.success(page.getRecords(), page.getTotal(), HttpStatusCodeEnum.SUCCESS);
     }
 }

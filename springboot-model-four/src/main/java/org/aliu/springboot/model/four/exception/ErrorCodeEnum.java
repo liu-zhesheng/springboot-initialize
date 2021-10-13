@@ -31,7 +31,9 @@ public enum ErrorCodeEnum {
     XXX("3001", "业务异常"),
     INSERT_ERROR("3002", "新增失败"),
     DELETE_ERROR("3003", "删除失败"),
-    UPDATE_ERROR("3004","更新失败");
+    UPDATE_ERROR("3004", "更新失败"),
+    RATE_LIMIT_ERROR("3005", "限流异常"),
+    FILE_UPLOAD_ERROR("3006","文件上传失败") ;
     private String code;
 
     private String message;
